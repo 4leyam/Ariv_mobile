@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/register_b"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cg.code.aleyam.nzela_nzela.offline.OffTransaction"
+>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        >
+
+        <android.support.constraint.Guideline
+            android:id="@+id/marge_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.08" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/marge_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.1" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/label_jours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vous voyagez quand?"
+            android:paddingBottom="20dp"
+
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="@+id/marge_two"
+
+            app:layout_constraintRight_toLeftOf="@+id/jours"
+            app:layout_constraintStart_toStartOf="@+id/marge_two"
+            app:layout_constraintTop_toBottomOf="@+id/marge_one" />
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/jours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/label_jours"
+            app:layout_constraintTop_toBottomOf="@+id/marge_one" />
+
+        <!--mise en place de l'heure du depart-->
+
+        <TextView
+            android:id="@+id/houre_dep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="25dp"
+            android:paddingRight="10dp"
+            android:text="Heure du depart"
+            app:layout_constraintStart_toStartOf="@id/marge_two"
+            app:layout_constraintTop_toBottomOf="@id/label_jours" />
+
+        <Button
+            android:id="@+id/edit_houre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="Modifier"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintBaseline_toBaselineOf="@id/houre_dep"
+            app:layout_constraintStart_toEndOf="@id/houre_dep" />
+
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/de_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="je part de: "
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="@+id/marge_two"
+            app:layout_constraintRight_toLeftOf="@+id/de_spin"
+
+            app:layout_constraintStart_toStartOf="@+id/marge_two"
+
+            app:layout_constraintTop_toBottomOf="@+id/houre_dep" />
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/de_spin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+
+            app:layout_constraintLeft_toRightOf="@id/de_label"
+            app:layout_constraintRight_toLeftOf="@+id/pour_label"
+            app:layout_constraintTop_toBottomOf="@+id/jours"
+
+            app:layout_constraintTop_toTopOf="@+id/de_label" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/pour_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="pour:"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toRightOf="@+id/de_spin"
+
+
+            app:layout_constraintRight_toLeftOf="@+id/pour_spin"
+
+
+            app:layout_constraintTop_toBottomOf="@+id/houre_dep" />
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/pour_spin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/pour_label"
+            app:layout_constraintTop_toBottomOf="@+id/jours"
+
+            app:layout_constraintTop_toTopOf="@+id/pour_label" />
+
+
+        <fragment
+            android:id="@+id/off_fragment"
+            class="cg.code.aleyam.nzela_nzela.enregistrement.Enregistrement_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/de_label"
+
+            tools:layout="@layout/fragment_register" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v4.widget.NestedScrollView>
+

@@ -1,0 +1,21 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/racine_home_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="cg.code.aleyam.nzela_nzela.home.Home_fragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/home_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layoutManager="StaggeredGridLayoutManager"
+        app:spanCount="3"
+        android:orientation="vertical"
+        tools:listitem="@layout/item_agence"/>
+
+
+</android.support.design.widget.CoordinatorLayout>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    >
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="14dp"
+        >
+
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/noms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/nom"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+
+                />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/prenoms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prenom"
+                android:inputType="text"
+                android:maxLines="1"
+
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/sexe"
+                />
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/sexe_span"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+                />
+
+        </LinearLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            >
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/tel_pers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/tel"
+                android:inputType="phone"
+                android:maxLines="1"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/tel_proch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/tel0"
+                android:inputType="phone"
+                android:maxLines="1"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/adresse_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:passwordToggleEnabled="true"
+            android:visibility="invisible"
+            app:passwordToggleTint="@color/colorPrimaryDark"
+            >
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/adresse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/info_dresse"
+                android:inputType="text"
+                android:maxLines="1"
+                android:visibility="invisible"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:padding="20dp">
+
+            <ru.dimorinny.floatingtextbutton.FloatingTextButton
+                android:id="@+id/bt_reserver"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:floating_title_color="#FFFFFFFF"
+                app:floating_background_color="@color/colorPrimaryDark"
+                app:floating_icon="@drawable/ic_pets_black_24dp"
+                app:floating_title="@string/reserver" />
+
+            <ru.dimorinny.floatingtextbutton.FloatingTextButton
+                android:id="@+id/bt_acheter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/bt_reserver"
+                android:layout_toRightOf="@id/bt_reserver"
+                app:floating_title_color="#FFFFFFFF"
+                app:floating_background_color="@color/colorPrimaryDark"
+                app:floating_icon="@drawable/ic_monetization_on_black_24dp"
+                app:floating_title="@string/acheter" />
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
+

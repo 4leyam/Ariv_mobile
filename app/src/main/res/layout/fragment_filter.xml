@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <ru.dimorinny.floatingtextbutton.FloatingTextButton
+            android:id="@+id/retour_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:paddingTop="15dp"
+            android:paddingBottom="20dp"
+            app:floating_background_color="@android:color/transparent"
+            app:floating_title="Retour"
+            app:floating_icon="@drawable/ic_keyboard_arrow_left_black_24dp"
+            />
+        <RelativeLayout
+            android:id="@+id/fragment_anchor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</ScrollView>
+

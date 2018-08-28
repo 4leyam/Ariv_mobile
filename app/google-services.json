@@ -1,0 +1,71 @@
+{
+  "project_info": {
+    "project_number": "594681936638",
+    "firebase_url": "https://nzela-nzela.firebaseio.com",
+    "project_id": "nzela-nzela",
+    "storage_bucket": "nzela-nzela.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:594681936638:android:7f1cb4ce815f31f7",
+        "android_client_info": {
+          "package_name": "cg.code.aleyam.nzela_nzela"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "594681936638-6g76u2dvkkpie9peuvpsjtf5hv5cuiht.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cg.code.aleyam.nzela_nzela",
+            "certificate_hash": "7e3a804d6abafe4206b477ef1448bcfc068f0c3d"
+          }
+        },
+        {
+          "client_id": "594681936638-90b26gr85qvhfg8ifc2fqh0q1banvjam.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cg.code.aleyam.nzela_nzela",
+            "certificate_hash": "52199423006ff3ea27cf329b5085e726b1549b4b"
+          }
+        },
+        {
+          "client_id": "594681936638-f3j00s2j8cud9bmbm113vl9l8fatk8mq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cg.code.aleyam.nzela_nzela",
+            "certificate_hash": "043ea536a2379469abe46911fd98ae7e06c9f80d"
+          }
+        },
+        {
+          "client_id": "594681936638-t0ef0p8m1j0moqpiqj757v0r39e4l0m8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9rlRX5mJ7bWddF4aA_OiCMXe2T0ySuFc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "594681936638-t0ef0p8m1j0moqpiqj757v0r39e4l0m8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

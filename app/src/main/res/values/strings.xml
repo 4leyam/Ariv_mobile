@@ -1,0 +1,73 @@
+<resources>
+    <string name="title_activity_resume">Resume</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Parametres</string>
+    <string name="title_activity_maps">trafic</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_ticket">ARIV-Ticket</string>
+    <string name="mobicash">Mobicash</string>
+    <string name="paypal_wallet_available">wallet available</string>
+    <string name="continuer_vers">Continuer vers</string>
+    <string name="annuler">Annuler</string>
+    <string name="filter_caption">Veuillez s\'il vout plait renseigner les champs ci-dessous afin de determiner le meilleur depart pour vous.</string>
+    <string name="date_depart">Date de depart</string>
+    <string name="somme_minimale">Somme Minimale</string>
+    <string name="somme_maximale">Somme maximale</string>
+    <string name="destination_dep">Date depart</string>
+    <string name="heure_dep">Heure depart</string>
+    <string name="title_activity_settings">Parametres</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_user">Compte Utilisateur</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_navigation">Navigation</string>
+
+    <string name="pref_header_trip">Voyage</string>
+
+    <string name="pref_header_about">A propos</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_certification">Alerts</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
+    <string name="pref_user_name">Nom</string>
+    <string name="pref_user_lastname">Prenom</string>
+    <string name="pref_user_pnumber">Telephone</string>
+    <string name="pref_user_cpnumber">Telephone ( proche )</string>
+    <string name="pref_user_adress">Adresse</string>
+    <string name="pref_user_disconnect">Deconnexion</string>
+    <string name="notification_switch_summary">Vous notifie tout le temps qu\'un evenement majeur est signale</string>
+    <string name="certification_alert">Alerts</string>
+    <string name="pref_use_add">Ajout</string>
+    <string name="pref_trip_shortcut">Info raccourci</string>
+    <string name="copyright_text">&#169; MAPPCOM &amp; ALEYAM-SLTS tous droits reservés</string>
+</resources>

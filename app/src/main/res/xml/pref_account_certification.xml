@@ -1,0 +1,40 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceCategory
+    android:title="Certification"
+    >
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="key_pref_certification_alerts"
+        android:summary="@string/notification_switch_summary"
+        android:title="@string/certification_alert" />
+
+    <MultiSelectListPreference
+        android:dependency="key_pref_certification_alerts"
+        android:entries="@array/pref_alert_type"
+        android:entryValues="@array/pref_alert_type_values"
+        android:key="key_pref_certification_alerts_type"
+        android:negativeButtonText="Annuler"
+        android:positiveButtonText="Valider"
+        android:title="Mes alerts" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:dependency="key_pref_certification_alerts"
+        android:key="key_pref_certification_alerts_user_type"
+        android:title="Type de Compte"
+        />
+
+    <EditTextPreference
+        android:key="key_pref_user_addAlert"
+        android:dependency="key_pref_certification_alerts_user_type"
+        android:inputType="phone"
+        android:title="@string/pref_use_add"
+        android:dialogMessage="Ajouter un utilisateur grace a son Numero (Precisez le code pays)"
+        android:dialogTitle="Ajout utilisateur"
+        android:summary="Ajouter des Utilisateurs qui recevront les memes Alerts que vous"
+        />
+
+
+</PreferenceCategory>
+</PreferenceScreen>

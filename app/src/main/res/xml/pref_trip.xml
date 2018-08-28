@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <PreferenceCategory
+        android:title="Transactions"
+        >
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="pref_trip_shortcut"
+            android:title="@string/pref_trip_shortcut"
+            />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Voyages"
+        >
+        <ListPreference
+            android:defaultValue="2"
+            android:entries="@array/pref_trip_range"
+            android:entryValues="@array/pref_trip_range_values"
+            android:key="key_pref_trip_range"
+            android:negativeButtonText="Annuler"
+            android:positiveButtonText="Valider"
+            android:title="Disposition"
+            />
+    </PreferenceCategory>
+</PreferenceScreen>
+
+

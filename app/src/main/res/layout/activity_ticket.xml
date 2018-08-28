@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.github.florent37.materialviewpager.MaterialViewPager
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/materialviewpager"
+
+    app:viewpager_logoMarginTop="80dp"
+    app:viewpager_color="@color/colorPrimary"
+    app:viewpager_enableToolbarElevation="false"
+
+    app:viewpager_headerHeight="200dp"
+    app:viewpager_headerAdditionalHeight="30dp"
+
+    app:viewpager_headerAlpha="0.1"
+    app:viewpager_hideLogoWithFade="true"
+    app:viewpager_hideToolbarAndTitle="false"
+    app:viewpager_parallaxHeaderFactor="0.1"
+
+    app:viewpager_pagerTitleStrip="@layout/material_view_pager_pagertitlestrip_newstand"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    />

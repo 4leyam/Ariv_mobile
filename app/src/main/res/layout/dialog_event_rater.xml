@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/avis_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Veracite de l'info"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:paddingBottom="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        />
+
+    <RatingBar
+        android:id="@+id/vote"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:numStars="5"
+        android:theme="@style/custom_t"
+        android:rating="3"
+
+        app:layout_constraintTop_toBottomOf="@id/avis_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+
+
+    <Button
+        android:id="@+id/submit_avis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:text="valider"
+        android:paddingTop="15dp"
+        android:textColorHighlight="@color/colorPrimaryDark"
+        android:textColorHint="@color/colorPrimaryDark"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@id/vote" />
+
+</android.support.constraint.ConstraintLayout>

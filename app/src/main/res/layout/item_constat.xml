@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    >
+
+    <android.support.v7.widget.CardView
+
+        android:id="@+id/event"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+
+
+        app:cardCornerRadius="28dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardElevation="3dp"
+        tools:layout_editor_absoluteX="0dp">
+
+        <LinearLayout
+            android:id="@+id/layout_lin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+
+            >
+
+            <ImageView
+                android:id="@+id/event_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:cropToPadding="true"
+                android:fitsSystemWindows="true"
+                android:src="@drawable/accident" />
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+    <TextView
+        android:id="@+id/description"
+        android:text="Observation"
+        android:textSize="12sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/event"
+        app:layout_constraintStart_toStartOf="@id/event"
+        app:layout_constraintEnd_toEndOf="@id/event"
+        />
+
+</android.support.constraint.ConstraintLayout>
+
+
+
+

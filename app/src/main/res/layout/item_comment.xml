@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guide_gauche"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.037"
+         />
+    <android.support.constraint.Guideline
+        android:id="@+id/top_pad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.3"
+        />
+    <ImageView
+
+        android:id="@+id/id_cv_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/img"
+        app:layout_constraintTop_toTopOf="@id/top_pad"
+        app:layout_constraintStart_toEndOf="@id/guide_gauche"
+        app:layout_constraintEnd_toStartOf="@id/comment_guide"
+        app:layout_constraintDimensionRatio="1.2"
+        />
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/comment_guide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="73dp" />
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:text="Utilisateur inconu"
+        app:layout_constraintTop_toTopOf="@id/top_pad"
+        app:layout_constraintStart_toStartOf="@id/comment_guide"
+
+        app:layout_goneMarginStart="20dp"
+        />
+    <RatingBar
+        android:id="@+id/avis_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:isIndicator="true"
+        style="?android:attr/ratingBarStyleSmall"
+        android:theme="@style/custom_t"
+        android:numStars="5"
+        app:layout_constraintTop_toBottomOf="@id/user_name"
+        app:layout_constraintStart_toStartOf="@id/comment_guide"
+        app:layout_goneMarginStart="20dp"
+
+        />
+    <TextView
+        android:id="@+id/comment_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Searched for awhile with no luck, this is the only solution that worked for me. Thanks for posting such a detailed answer with images! "
+        app:layout_constraintStart_toStartOf="@id/comment_guide"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/avis_comment"
+        app:layout_goneMarginStart="20dp"
+
+        />
+
+
+</android.support.constraint.ConstraintLayout>

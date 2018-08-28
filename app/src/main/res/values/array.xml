@@ -1,0 +1,86 @@
+<resources>
+    <string-array name="pref_alert_type">
+        <item>Incivisme</item>
+        <item>Zone routieres Dangereuse</item>
+        <item>Accidents de Circulation</item>
+        <item>Individus Suspects</item>
+    </string-array>
+
+    <string-array name="pref_alert_type_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>-1</item>
+    </string-array>
+
+
+    <string-array name="key_pref_navigation_events">
+        <item>police</item>
+        <item>accidents</item>
+        <item>traveaux</item>
+        <item>stations</item>
+        <item>incivisme</item>
+        <item>danger</item>
+        <item>interdiction (Abus d'autorite)</item>
+    </string-array>
+
+    <string-array name="key_pref_navigation_events_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>-1</item>
+    </string-array>
+
+
+    <string-array name="pref_alert_user_type">
+        <item>administrateur</item>
+        <item>Agent public</item>
+    </string-array>
+
+    <string-array name="pref_alert_user_type_values">
+        <item>0</item>
+        <item>1</item>
+        <item>-1</item>
+    </string-array>
+
+    <string-array name="key_pref_navigation_radius">
+        <item>2 km</item>
+        <item>6 km</item>
+        <item>20 km</item>
+    </string-array>
+    <string-array name="key_pref_navigation_radius_value">
+        <item>1</item>
+        <item>3</item>
+        <item>10</item>
+    </string-array>
+
+
+    <string-array name="pref_trip_range">
+        <item>Par date</item>
+        <item>Par prix</item>
+    </string-array>
+
+    <string-array name="pref_trip_range_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="list_preference_entries">
+        <item>Entry 1</item>
+        <item>Entry 2</item>
+        <item>Entry 3</item>
+    </string-array>
+
+    <string-array name="list_preference_entry_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="multi_select_list_preference_default_value" />
+</resources>

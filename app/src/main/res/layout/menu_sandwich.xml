@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+
+    >
+
+
+    <LinearLayout
+        android:id="@+id/custom_title_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:paddingLeft="5dp"
+            android:text="@string/app_name"
+            android:textStyle="bold"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:id="@+id/user_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:paddingLeft="5dp"
+            android:text="utilisateur inconnu"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="15sp"
+            />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/grote_img"
+        android:layout_width="445dp"
+        android:layout_height="230dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/presentation"
+        android:adjustViewBounds="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/custom_title_menu" />
+
+
+</android.support.constraint.ConstraintLayout>

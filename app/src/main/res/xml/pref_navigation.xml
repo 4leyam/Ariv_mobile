@@ -1,0 +1,29 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Navigation"
+        >
+
+        <MultiSelectListPreference
+            android:entries="@array/key_pref_navigation_events"
+            android:entryValues="@array/key_pref_navigation_events_values"
+            android:key="key_pref_navigation_events"
+            android:negativeButtonText="Annuler"
+            android:positiveButtonText="Valider"
+            android:title="Ne Montrer que ( Filtre )"
+            android:summary="Focalisez vous sur ce qui vous interesse"
+            />
+
+
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/key_pref_navigation_radius"
+            android:entryValues="@array/key_pref_navigation_radius_value"
+            android:key="key_pref_navigation_radius"
+            android:negativeButtonText="Annuler"
+            android:positiveButtonText="Valider"
+            android:title="Zone de recherche"
+            />
+    </PreferenceCategory>
+
+</PreferenceScreen>

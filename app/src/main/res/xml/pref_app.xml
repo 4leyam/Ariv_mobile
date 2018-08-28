@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:key="Key_pref_about"
+        android:layout="@layout/layout_about_app"
+        />
+    <Preference
+        android:title="ARIV Conditions d'utilisation"
+        android:summary="Lisez les conditions d'utilisation d'ARIV"
+        />
+    <Preference
+        android:title="Suggestions et retour d'experience"
+        android:summary="Aidez nous à ameliorer l'ARIV"
+        />
+    <Preference
+        android:title="ARIV, Nzela-Nzela"
+        android:summary="Un Produit ALEYAM-SLTS"
+        />
+
+</PreferenceScreen>
+
+

@@ -1,0 +1,86 @@
+<resources>
+    <string name="app_name">ARIV</string>
+    <string name="depart">Depart: </string>
+    <string name="nom_agence">Agence X</string>
+    <string name="formalite">Formalité: </string>
+    <string name="reserver">Reserver</string>
+    <string name="acheter">Acheter</string>
+    <string name="info">info</string>
+    <string name="adresse">Adresse: </string>
+    <string name="prix">Prix du billet: </string>
+    <string name="date">Pour le : </string>
+    <string name="recherche">une somme, ou un nom</string>
+    <string name="nom">Nom(s)</string>
+    <string name="prenom">Prenom(s)</string>
+    <string name="tel">Telephone(personnel)</string>
+    <string name="tel0">Telephone(un proche)</string>
+    <string name="codeMM">Code Mobile Money(facultatif)</string>
+    <string name="info_dresse">Adresse(Quartier et Arrondissement) </string>
+    <string name="transac_info">Finalisation de la transaction:
+        si le ticket vous est destiné cliquez sur le boutton ci-dessous</string>
+    <string name="text_meilleur_agence">Agences de transport les plus appreciées </string>
+    <string name="plus_de_place">Plus de place; impossible de reserver ou d\'acheter</string>
+    <string name="propos_a">à propos:</string>
+    <string name="contact_tel">Tel: </string>
+    <string name="mail">Email:  </string>
+    <string name="adresse_agence">Adresse: </string>
+    <string name="site_internet">Site Web: </string>
+    <string name="point_A">Part de </string>
+    <string name="point_B">pour </string>
+    <string name="pseudo_comment">Entrez votre pseudo</string>
+    <string name="commentaire">Entrez votre commentaire</string>
+    <string name="note">Noter l\'agence</string>
+    <string name="reessayer">Reessayer</string>
+    <string name="connection_probleme">Probleme de communication avec le serveur</string>
+    <string name="info_chargement">Chargement... un instant svp </string>
+    <string name="authentication">Verification du numero de telephone</string>
+    <string name="verifier">Envoyer</string>
+    <string name="numero">Entrer votre numero</string>
+    <string name="code">Code</string>
+    <string name="auth_label">Authentification</string>
+    <string name="ouvert">menu principal ouvert</string>
+    <string name="ferme">menu principal ferme</string>
+
+    <string-array name="destinations">
+        <item>Bobo</item>
+        <item>Ouaga</item>
+        <item>Goua</item>
+        <item>Abidjan</item>
+        <item>Ouahigouya</item>
+        <item>Fada</item>
+        <item>Kaya</item>
+        <item>Koudougou</item>
+        <item>Dedougou</item>
+        <item>Tenkodogo</item>
+        <item>Garango</item>
+        <item>Gourma</item>
+        <item>Koupéla</item>
+        <item>Po</item>
+    </string-array>
+
+    <string-array name="destination_cg">
+        <item>Brazzaville</item>
+        <item>Pointe-Noire</item>
+        <item>Dolisie</item>
+        <item>Nkayi</item>
+        <item>Ouesso</item>
+        <item>Madingou</item>
+        <item>Owando</item>
+        <item>Gamboma</item>
+        <item>Impfondo</item>
+        <item>Sibiti</item>
+        <item>Mossendjo</item>
+        <item>Kinkala</item>
+        <item>Makoua</item>
+        <item>Ewo</item>
+        <item>Djambala</item>
+    </string-array>
+
+    <string name="google_maps_key">AIzaSyD9rlRX5mJ7bWddF4aA_OiCMXe2T0ySuFc</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_activity_commentaire">CommentaireActivity</string>
+    <string name="sexe">Sexe: </string>
+    <string name="bt_mes_info">Mes informations</string>
+
+</resources>
