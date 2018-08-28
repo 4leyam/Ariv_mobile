@@ -23,11 +23,11 @@
         android:dependency="key_pref_certification_alerts"
         android:key="key_pref_certification_alerts_user_type"
         android:title="Type de Compte"
+        android:summary="Agent public"
         />
 
     <EditTextPreference
         android:key="key_pref_user_addAlert"
-        android:dependency="key_pref_certification_alerts_user_type"
         android:inputType="phone"
         android:title="@string/pref_use_add"
         android:dialogMessage="Ajouter un utilisateur grace a son Numero (Precisez le code pays)"

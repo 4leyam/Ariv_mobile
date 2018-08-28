@@ -3,6 +3,7 @@ package cg.code.aleyam.nzela_nzela.Settings;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,6 +33,17 @@ public class SettingsManager {
 
     }
 
+    public boolean isAddOperationAllowed() {
+        Set<String> set = getSharedPreferences().getStringSet("key_pref_certification_alerts_type" , new HashSet<String>());
+        boolean isAdmin = getSharedPreferences().getBoolean( "key_pref_certification_alerts_user_type" , false);
+        return !set.isEmpty() && isAdmin;
+    }
+
+    public boolean isSummaryNeeded() {
+        boolean isNeeded = getSharedPreferences().getBoolean( "key_switch_display_home" , false);
+        return isNeeded;
+    }
+
     public SharedPreferences getSharedPreferences() {
         return sp;
     }
@@ -39,6 +51,11 @@ public class SettingsManager {
     private SettingsManager(Context ct) {
       sp = PreferenceManager.getDefaultSharedPreferences(ct);
       this.ct = ct;
+    }
+
+    public static String[] getInfoUser(Context context) {
+        infoUser = DatabaseManager.getInstance(context).getCurrentUser();
+        return infoUser;
     }
 
     public void initUserInfo() {
@@ -59,40 +76,48 @@ public class SettingsManager {
     public Set<String> getUserPreferedEvent() {
         return sp.getStringSet("key_pref_navigation_events" , new HashSet<String>());
     }
+    public void setUserEventsListner(Set<String> events) {
+        getSharedPreferences().edit().putStringSet("key_pref_certification_alerts" , events).apply();
+    }
 
     public void verifyAdminPass(final String prefKey , final String pass , final SettingOperationListener sol) {
 
-
-        Upload.data_root_ref.child("randomData/tmpPass").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(pass.equals(dataSnapshot.getValue())) {
-                    sol.completed(prefKey , true);
-                } else {
-                    //attention pas connecte
-                    Upload.data_root_ref.child("users/"+infoUser[2]+"/password").getRef().addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if(dataSnapshot.exists() && pass.equals(dataSnapshot.getValue())) {
-                                sol.completed(prefKey , true);
-                            } else {
-                                sol.completed(prefKey , null);
+        if(infoUser != null) {
+            Upload.data_root_ref.child("randomData/tmpPass").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(pass.equals(dataSnapshot.getValue())) {
+                        sol.completed(prefKey , true);
+                    } else {
+                        //attention pas connecte
+                        Upload.data_root_ref.child("users/"+infoUser[2]+"/password").getRef().addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists() && pass.equals(dataSnapshot.getValue())) {
+                                    sol.completed(prefKey , true);
+                                } else {
+                                    sol.completed(prefKey , null);
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            sol.completed(prefKey , databaseError);
-                        }
-                    });
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                sol.completed(prefKey , databaseError);
+                            }
+                        });
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                sol.completed(prefKey , databaseError);
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    sol.completed(prefKey , databaseError);
+                }
+            });
+        } else {
+            Log.e("test", "verifyAdminPass: pas d'user");
+            sol.completed(prefKey , null);
+        }
+
 
     }
 
@@ -101,94 +126,96 @@ public class SettingsManager {
         if(infoUser == null) {
             infoUser = db.getCurrentUser();
         }
-        switch (change_key) {
+        if(infoUser != null) {
+            switch (change_key) {
 
-            case CHANGE_NAME:
-                if(infoUser != null) {
+                case CHANGE_NAME:
+                    if(infoUser != null) {
 
-                    Upload.data_root_ref.child("users/"+infoUser[2]+"/nom").setValue(value).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            db.setName(value);
-                        }
-                    });
-
-                }
-                break;
-            case CHANGE_LASTNAME:
-
-                if(infoUser != null) {
-
-                    Upload.data_root_ref.child("users/"+infoUser[2]+"/prenom").setValue(value).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            db.setLastName(value);
-                        }
-                    });
-
-                }
-                break;
-            case CHANGE_PHONE:
-                if(infoUser != null && !value.equalsIgnoreCase(infoUser[2])) {
-
-                    Upload.data_root_ref.child("users/"+value).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if(!dataSnapshot.exists()) {
-                                Upload.data_root_ref.child("users/"+infoUser[2]).addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        UserObject uo = dataSnapshot.getValue(UserObject.class);
-                                        dataSnapshot.getRef().getParent().child(value).setValue(uo).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                db.setPhone(value);
-                                            }
-                                        });
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
-                                });
-                            } else {
-                                Toast.makeText(ct , "Un Compte est deja associe a ce numero" , Toast.LENGTH_SHORT).show();
+                        Upload.data_root_ref.child("users/"+infoUser[2]+"/nom").setValue(value).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                db.setName(value);
                             }
-                        }
+                        });
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                    }
+                    break;
+                case CHANGE_LASTNAME:
 
-                        }
-                    });
+                    if(infoUser != null) {
 
-                }
-                break;
-            case CHANGE_CPHONE:
-                if(infoUser != null) {
+                        Upload.data_root_ref.child("users/"+infoUser[2]+"/prenom").setValue(value).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                db.setLastName(value);
+                            }
+                        });
 
-                    Upload.data_root_ref.child("users/"+infoUser[2]+"/contact_proche").setValue(value).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            db.setTelProch(value);
-                        }
-                    });
+                    }
+                    break;
+                case CHANGE_PHONE:
+                    if(infoUser != null && !value.equalsIgnoreCase(infoUser[2])) {
 
-                }
-                break;
-            case CHANGE_ADRESS:
-                if(infoUser != null) {
+                        Upload.data_root_ref.child("users/"+value).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if(!dataSnapshot.exists()) {
+                                    Upload.data_root_ref.child("users/"+infoUser[2]).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            UserObject uo = dataSnapshot.getValue(UserObject.class);
+                                            dataSnapshot.getRef().getParent().child(value).setValue(uo).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    db.setPhone(value);
+                                                }
+                                            });
+                                        }
 
-                    Upload.data_root_ref.child("users/"+infoUser[2]+"/adresse").setValue(value).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            db.setAdress(value);
-                        }
-                    });
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
 
-                }
-                break;
+                                        }
+                                    });
+                                } else {
+                                    Toast.makeText(ct , "Un Compte est deja associe a ce numero" , Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                    }
+                    break;
+                case CHANGE_CPHONE:
+                    if(infoUser != null) {
+
+                        Upload.data_root_ref.child("users/"+infoUser[2]+"/contact_proche").setValue(value).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                db.setTelProch(value);
+                            }
+                        });
+
+                    }
+                    break;
+                case CHANGE_ADRESS:
+                    if(infoUser != null) {
+
+                        Upload.data_root_ref.child("users/"+infoUser[2]+"/adresse").setValue(value).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                db.setAdress(value);
+                            }
+                        });
+
+                    }
+                    break;
+            }
         }
         db.closeDB();
 

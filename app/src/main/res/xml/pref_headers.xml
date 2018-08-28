@@ -28,6 +28,11 @@
         android:summary="Organisez vos preferences de Voyage"
         android:title="@string/pref_header_trip" />
     <header
+        android:fragment="cg.code.aleyam.nzela_nzela.Settings.SettingsActivity$OtherFragment"
+        android:icon="@drawable/ic_more_horiz_black_24dp"
+        android:summary="Plus"
+        android:title="@string/pref_header_others" />
+    <header
         android:fragment="cg.code.aleyam.nzela_nzela.Settings.SettingsActivity$AboutFragment"
         android:icon="@drawable/ic_info_black_24dp"
         android:summary="Prennez connaissance d'ARIV et faites nous part de votre experience, vos suggestions"

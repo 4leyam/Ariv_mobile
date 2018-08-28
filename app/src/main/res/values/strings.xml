@@ -65,9 +65,14 @@
     <string name="pref_user_cpnumber">Telephone ( proche )</string>
     <string name="pref_user_adress">Adresse</string>
     <string name="pref_user_disconnect">Deconnexion</string>
-    <string name="notification_switch_summary">Vous notifie tout le temps qu\'un evenement majeur est signale</string>
-    <string name="certification_alert">Alerts</string>
+    <string name="notification_switch_summary">regularise la modification des alerts evenement</string>
+    <string name="certification_alert">Modifications</string>
     <string name="pref_use_add">Ajout</string>
     <string name="pref_trip_shortcut">Info raccourci</string>
     <string name="copyright_text">&#169; MAPPCOM &amp; ALEYAM-SLTS tous droits reservés</string>
+    <string name="paiementMethodeSumary">Methode de Paiement: \n ARIV vous permet de faire des
+        achatas et des reservation de tickets de bus a l\'aide des cartes de credits, de debit, d'un compte Paypal.</string>
+    <string name="valideSumary">Consultez vos tickets valide et votre Historique de voyage</string>
+    <string name="expireSumary">Guardez un oeuil sur vos ancien deplacement et vos souvenirs</string>
+    <string name="pref_header_others">Autres Preferences</string>
 </resources>

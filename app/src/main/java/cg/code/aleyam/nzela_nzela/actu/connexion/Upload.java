@@ -46,10 +46,11 @@ import cg.code.aleyam.nzela_nzela.offline.OffTransaction;
 
 public class Upload{
 
-    ProgressBar uploadState = null;
-    Button cancelUpload = null;
-    TextView percent = null;
-    Dialog sendConstat = null;
+    private ProgressBar uploadState = null;
+    private Button cancelUpload = null;
+    private TextView percent = null;
+    private Dialog sendConstat = null;
+    //TODO static fiel fixing.
     private static Upload instance = null;
     private Context ct = null;
     private String[] user_info = null;
@@ -57,7 +58,7 @@ public class Upload{
 
     private static FirebaseStorage storageRoot = FirebaseStorage.getInstance();
     private static StorageReference root_ref = storageRoot.getReference();
-    public static StorageReference constat_ref =  root_ref.child("posts");
+    private static StorageReference constat_ref =  root_ref.child("posts");
 
     //realtime database fields
     private static FirebaseDatabase nzela_base = FirebaseDatabase.getInstance();

@@ -11,6 +11,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -189,56 +190,21 @@ public class AlertService extends Service {
     private Set<String> getUserPreferedAlert() {
 
         sp = PreferenceManager.getDefaultSharedPreferences(this);
-        return sp.getStringSet("key_pref_navigation_events" , new HashSet<String>());
+        return sp.getStringSet("key_pref_certification_alerts_type" , new HashSet<String>());
 
     }
 
     public void createNotification() {
-        //on definit la sonnerie de la notification.
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
-
-
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(AlertService.this.getApplicationContext(), "notify_001");
-        Intent notificationIntent = new Intent(AlertService.this.getApplicationContext(), Centrale_activity.class);
-        //on dit bien a l'activite que ca vient d'ici.
-        notificationIntent.putExtra(FROM_NOTIFICATION , true);
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        //
-        PendingIntent pendingIntent = PendingIntent.getActivity(AlertService.this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
-        //information quand la notification est depliee.
-        bigText.setBigContentTitle("ARIV");
-        bigText.bigText("ARIV-Navigateur");
-        bigText.setSummaryText("Nouvel evenement poste, Rendez vous sur l'application afin de le voire");
-
-        mBuilder.setContentIntent(pendingIntent);
-        mBuilder.setAutoCancel(true);
-        mBuilder.setSound(alarmSound);
-        //deux seconde de vibration
-        mBuilder.setVibrate(new long[]{2000});
-        mBuilder.setSmallIcon(R.drawable.app_icon);
-        //titre de la notification quand elle est pliee.
-        mBuilder.setContentTitle("Nouveau Post");
-        //apercu
-        mBuilder.setContentText("Rendez vous sur l'application afin de voire les nouveaux evenements publies");
-        mBuilder.setPriority(Notification.PRIORITY_MAX);
-        mBuilder.setStyle(bigText);
-
-        NotificationManager mNotificationManager =
-                (NotificationManager) AlertService.this.getSystemService(NOTIFICATION_SERVICE);
-
-        //sur android oreo les notification sont categorisee en chaine donc ce snipet s'impose.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("notify_001",
-                    "Channel human readable title",
-                    NotificationManager.IMPORTANCE_DEFAULT);
-            mNotificationManager.createNotificationChannel(channel);
-        }
-
-        mNotificationManager.notify(0, mBuilder.build());
+        Bundle notificationBundle = new Bundle();
+        notificationBundle.putBoolean(FROM_NOTIFICATION , true);
+        CustomNotificationBuilder.getInstance().createNotification(
+                AlertService.this.getBaseContext()
+                , "ARIV-Navigateur"
+                , "Nouvel evenement poste, Rendez vous sur l'application afin de le voire"
+                , "Nouveau Post"
+                , "Rendez vous sur l'application afin de voire les nouveaux evenements publies"
+                , Centrale_activity.class
+                , notificationBundle);
     }
 
 

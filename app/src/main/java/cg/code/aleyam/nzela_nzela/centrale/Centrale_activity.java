@@ -31,6 +31,8 @@ import cg.code.aleyam.nzela_nzela.Settings.SettingsActivity;
 import cg.code.aleyam.nzela_nzela.Settings.SettingsManager;
 import cg.code.aleyam.nzela_nzela.actu.Actu_route;
 import cg.code.aleyam.nzela_nzela.actu.notification.AlertService;
+import cg.code.aleyam.nzela_nzela.actu.notification.AlertsRequestsService;
+import cg.code.aleyam.nzela_nzela.actu.notification.CustomNotificationBuilder;
 import cg.code.aleyam.nzela_nzela.home.Home;
 import cg.code.aleyam.nzela_nzela.lite.DatabaseManager;
 import cg.code.aleyam.nzela_nzela.transaction.TicketActivity;
@@ -40,8 +42,8 @@ public class Centrale_activity extends AppCompatActivity{
 
     public Fragment currentFragment = null;
     public static boolean isRunning = false;
-
-    Toolbar tb = null;
+    private boolean isBound = false;
+            Toolbar tb = null;
     String
             userInfos[] = null;
     NavigationView navigationView = null;
@@ -88,6 +90,7 @@ public class Centrale_activity extends AppCompatActivity{
         actionBarDrawerToggle = new ActionBarDrawerToggle(Centrale_activity.this , drawerLayout , R.string.ouvert , R.string.ferme );
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
+        defineSummaryState(navigationView);
         defineAlertState(navigationView);
         View v = navigationView.inflateHeaderView(R.layout.menu_sandwich);
         userNamePresentation = v.findViewById(R.id.user_info);
@@ -96,13 +99,28 @@ public class Centrale_activity extends AppCompatActivity{
         dbManager.closeDB();
 
         setSelectedCentralFragment(savedInstanceState);
+        initAlertRequestListener();
+    }
+    public void initAlertRequestListener() {
+        if(!isBound) {
+            Intent i = new Intent(Centrale_activity.this , AlertsRequestsService.class);
+            Centrale_activity.this.startService(i);
+            isBound = CustomNotificationBuilder.getInstance().bindRequestService(Centrale_activity.this , i);
+        }
 
     }
 
+
     public void defineAlertState(NavigationView navigationView) {
-        boolean alert = SettingsManager.getInstance(Centrale_activity.this).getSharedPreferences().getBoolean("key_pref_certification_alerts" , false);
+        boolean alert = SettingsManager.getInstance(this).isAddOperationAllowed();
         Menu nav_Menu = navigationView.getMenu();
         nav_Menu.findItem(R.id.alerts).setVisible(alert);
+    }
+
+    public void defineSummaryState(NavigationView navigationView) {
+        boolean summary = SettingsManager.getInstance(this).isSummaryNeeded();
+        Menu nav_Menu = navigationView.getMenu();
+        nav_Menu.findItem(R.id.summary).setVisible(summary);
     }
 
     private void setSelectedCentralFragment(Bundle savedInstanceState) {
@@ -110,12 +128,15 @@ public class Centrale_activity extends AppCompatActivity{
         if(currentFragment == null) {
             boolean fromNotification = getIntent().getBooleanExtra(AlertService.FROM_NOTIFICATION , false);
             //si l'activite est lancee depuis la notification.
+            boolean summary = SettingsManager.getInstance(this).isSummaryNeeded();
             if(fromNotification) {
                 initCentrale(new Actu_route());
             } else {
                 //on lance le fragment qui etait actif avant la pause.
                 if(savedInstanceState == null) {
-                    initCentrale(new Home());
+                    initCentrale(summary
+                            ? new SummaryFragment()
+                            : new Actu_route());
                 } else {
                     String fragementKey = savedInstanceState.getString("currentFragment");
                     if(fragementKey != null && !TextUtils.isEmpty(fragementKey)) {
@@ -169,17 +190,8 @@ public class Centrale_activity extends AppCompatActivity{
     public void initCentrale(Fragment incommingFragment ) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-        if(currentFragment == null) {
-            ft.add(R.id.centrale_switch , incommingFragment);
-            this.currentFragment = incommingFragment;
-        } else  {
-
-            ft.remove(this.currentFragment);
-//            ft.commit();
-//            ft = getSupportFragmentManager().beginTransaction();
-            this.currentFragment = incommingFragment;
-            ft.replace(R.id.centrale_switch , incommingFragment);
-        }
+        this.currentFragment = incommingFragment;
+        ft.replace(R.id.centrale_switch , incommingFragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
     }
@@ -222,6 +234,10 @@ public class Centrale_activity extends AppCompatActivity{
             } else if(item.getItemId() == R.id.ticket) {
                 Intent i = new Intent(Centrale_activity.this , TicketActivity.class);
                 startActivity(i);
+            } else if(item.getItemId() == R.id.summary) {
+                if(!(currentFragment instanceof  SummaryFragment)) {
+                    new Switcher().execute(new SummaryFragment());
+                }
             }
             return false;
         }

@@ -4,10 +4,8 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -16,7 +14,6 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.preference.RingtonePreference;
 import android.preference.SwitchPreference;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
@@ -31,6 +28,7 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseError;
 
 import cg.code.aleyam.nzela_nzela.R;
+import cg.code.aleyam.nzela_nzela.check.CommunicationCheck;
 import cg.code.aleyam.nzela_nzela.data_service.Loader;
 
 import java.util.HashSet;
@@ -54,6 +52,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
     private static PreferenceFragment certificationFragment = null;
     private static AlertDialog al = null;
     private static SettingsActivity sa = null;
+    private static boolean firstTime = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +75,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
     }
 
 
+    @Override
+    public void finish() {
+        super.finish();
+        firstTime = true;
+    }
 
     /**
      * A preference value change listener that updates the preference's summary
@@ -99,6 +103,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
                                 : null);
 
             } else if(preference instanceof SwitchPreference) {
+
                 if(preference.getKey().equalsIgnoreCase("pref_trip_shortcut")) {
                     boolean bool = Boolean.parseBoolean(stringValue);
                     if(bool)  preference.setSummary("Raccourci info Active");
@@ -110,6 +115,10 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
                 } else if(preference.getKey().equals("key_pref_certification_alerts")) {
                     //on est dans les preferences de certification ou compte public de l'utilisateur.
                     certificationHandler(preference , value);
+                } else if(preference.getKey().equals("key_switch_display_home")) {
+                    boolean bool = Boolean.parseBoolean(stringValue);
+                    if(bool)  preference.setSummary("Visible");
+                    else preference.setSummary("Masquer");
                 }
 
             } else if (preference instanceof MultiSelectListPreference) {
@@ -128,8 +137,18 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
 
             } else {
                 if(preference.getKey().equals("key_pref_user_addAlert")) {
-                    //on a ajouter un user.
-                    addUserHandler(stringValue , preference);
+                    //avant d'ajouter l'utilisateur on verifie dab si l'utilisateur est un administrateur.
+
+                    if(!firstTime) {
+                        boolean isAdmin = SettingsManager.getInstance(preference.getContext()).isAddOperationAllowed();
+                        if(isAdmin) {
+                            //ensuite on donne les authorisations a l'utilisateur.
+                            addUserHandler(stringValue , preference);
+                        } else {
+                            Toast.makeText(preference.getContext() , "Action Impossible vous n'avez pas les authorisations necessaires" , Toast.LENGTH_SHORT).show();
+                        }
+                    } firstTime = false;
+
                 } else {
                     initUserPref(preference , stringValue);
                     preference.setSummary(stringValue);
@@ -141,25 +160,32 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
     };
 
     private static void addUserHandler(String phone , Preference preference) {
-        Loader.getInstance(preference.getContext()).load(true);
-        SettingsManager sm =  SettingsManager.getInstance(preference.getContext());
-        Set<String> set = sm.getSharedPreferences().getStringSet("key_pref_certification_alerts_type" , new HashSet<String>());
-        sm.addUserInAlert(TextUtils.join("$" , set.toArray(new String[]{})) , phone ,"key_pref_user_addAlert" , sa);
+        if(CommunicationCheck.isConnectionAvalable(preference.getContext())) {
+
+            Loader.getInstance(preference.getContext()).load(true);
+            SettingsManager sm =  SettingsManager.getInstance(preference.getContext());
+            Set<String> set = sm.getSharedPreferences().getStringSet("key_pref_certification_alerts_type" , new HashSet<String>());
+            sm.addUserInAlert(TextUtils.join("$" , set.toArray(new String[]{})) , phone ,"key_pref_user_addAlert" , sa);
+        } else {
+            Toast.makeText(preference.getContext() , "Pas de Connexion Internet" , Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void completed(String key, Object object) {
 
+
         if(key.equals("key_pref_certification_alerts")) {
             //verification du mot de pass du switch pour les alerts.
             if(object == null) {
-                Toast.makeText(SettingsActivity.this , "Echec" , Toast.LENGTH_SHORT).show();
+
                 //on off le switch
                 SettingsManager.getInstance(SettingsActivity.this).getSharedPreferences().edit().putBoolean("key_pref_certification_alerts" , false).apply();
                 Loader.dismiss();
                 al = getCertificationAlertDialog(SettingsActivity.this);
                 //on affiche a nouveau afin de permettre a l'utilisateur de saisir son PW
                 al.show();
+                Toast.makeText(SettingsActivity.this , "Echec 138" , Toast.LENGTH_SHORT).show();
             } else if(object instanceof DatabaseError) {
                 //une erreure est survenue
                 Toast.makeText(SettingsActivity.this , "Erreur reseau" , Toast.LENGTH_SHORT).show();
@@ -177,7 +203,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
             }
         } else if(key.equals("key_pref_user_addAlert")) {
             if(object == null || object instanceof DatabaseError) {
-                Toast.makeText(SettingsActivity.this , "Echec" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(SettingsActivity.this , "Echec 2" , Toast.LENGTH_SHORT).show();
                 Loader.dismiss();
             } else if(object instanceof Boolean){
                 boolean result = (boolean) object;
@@ -186,6 +212,20 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
                     Toast.makeText(SettingsActivity.this , "Utilisateur ajoute avec succes" , Toast.LENGTH_SHORT).show();
                 }
             }
+        } else if(key.equals("key_pref_certification_alerts_type")) {
+            //traitement d'ajout d'utilisateur.
+
+            if(object == null) {
+                //si les choses ne se sont passee comme il se doit.
+                Toast.makeText(SettingsActivity.this , "Numero Incorrect" , Toast.LENGTH_SHORT).show();
+            } else if(object instanceof DatabaseError) {
+                //si les choses ne se sont passee comme il se doit.
+                Toast.makeText(SettingsActivity.this , "Probleme de connexion " , Toast.LENGTH_SHORT).show();
+            } else {
+                //donc tout s'est bien passe.
+                Toast.makeText(SettingsActivity.this , "Succes" , Toast.LENGTH_SHORT).show();
+            }
+            Loader.dismiss();
         }
     }
 
@@ -215,18 +255,32 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             //on a taper le mot de passe
-                            if(!TextUtils.isEmpty(et.getText())) {
-                                //si le mot de passe n'est pas vide on passe a la comparaison ok.
-                                SettingsManager.getInstance(ct).verifyAdminPass("key_pref_certification_alerts" , et.getText().toString() , SettingsActivity.sa);
-                                dialogInterface.dismiss();
-                                //on charge pendant la verification du mot de pass.
-                                Loader.getInstance(ct).load(true);
+                            if(CommunicationCheck.isConnectionAvalable(ct)) {
+                                if(!TextUtils.isEmpty(et.getText())) {
+                                    //si le mot de passe n'est pas vide on passe a la comparaison ok.
+                                    SettingsManager.getInstance(ct).verifyAdminPass("key_pref_certification_alerts" , et.getText().toString() , SettingsActivity.sa);
+                                    dialogInterface.dismiss();
+                                    //on charge pendant la verification du mot de pass.
+                                    Loader.getInstance(ct).load(true);
+                                } else {
+                                    SettingsManager.getInstance(ct).getSharedPreferences().edit().putBoolean("key_pref_certification_alerts" , false).apply();
+                                    Toast.makeText(ct , "Entrez un mot de passe valide SVP" , Toast.LENGTH_SHORT).show();
+                                    certificationFragment.getActivity().finish();
+                                    al = null;
+                                }
                             } else {
-                                SettingsManager.getInstance(ct).getSharedPreferences().edit().putBoolean("key_pref_certification_alerts" , false).apply();
-                                Toast.makeText(ct , "Entrez un mot de passe valide SVP" , Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ct , "Pas de Connexion internet" , Toast.LENGTH_SHORT).show();
                                 certificationFragment.getActivity().finish();
                                 al = null;
+                                SharedPreferences sp = SettingsManager.getInstance(ct).getSharedPreferences();
+                                boolean isAllowed = sp.getBoolean("key_pref_certification_alerts" , false);
+                                Toast.makeText(ct , "pope: "+isAllowed , Toast.LENGTH_SHORT ).show();
+//                                if(!isAllowed) {
+//                                    sp.edit().putBoolean("key_pref_certification_alerts" , false).apply();
+//                                }
+
                             }
+
                         }
                     })
                     .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
@@ -237,7 +291,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
                                 //donc on ferme la chose.
                                 dialogInterface.dismiss();
                                 certificationFragment.getActivity().finish();
-                                SettingsManager.getInstance(ct).getSharedPreferences().edit().putBoolean("key_pref_certification_alerts" , false).apply();
+                                SharedPreferences sp = SettingsManager.getInstance(ct).getSharedPreferences();
+                                boolean isAllowed = sp.getBoolean("key_pref_certification_alerts" , false);
+                                sp.edit().putBoolean("key_pref_certification_alerts" , false).apply();
                                 al = null;
                             }
                         }
@@ -343,15 +399,21 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_user_account);
-            setHasOptionsMenu(true);
+            String[] infoUser = SettingsManager.getInfoUser(getActivity());
+            if(infoUser == null) {
+                addPreferencesFromResource(R.xml.pref_no_user);
+            } else {
+
+                addPreferencesFromResource(R.xml.pref_user_account);
+                setHasOptionsMenu(true);
 
 
-            bindPreferenceSummaryToValue(findPreference("key_pref_user_name"));
-            bindPreferenceSummaryToValue(findPreference("key_pref_user_lastname"));
-            bindPreferenceSummaryToValue(findPreference("key_pref_user_pnumber"));
-            bindPreferenceSummaryToValue(findPreference("key_pref_user_cpnumber"));
-            bindPreferenceSummaryToValue(findPreference("key_pref_user_adress"));
+                bindPreferenceSummaryToValue(findPreference("key_pref_user_name"));
+                bindPreferenceSummaryToValue(findPreference("key_pref_user_lastname"));
+                bindPreferenceSummaryToValue(findPreference("key_pref_user_pnumber"));
+                bindPreferenceSummaryToValue(findPreference("key_pref_user_cpnumber"));
+                bindPreferenceSummaryToValue(findPreference("key_pref_user_adress"));
+            }
 
         }
 
@@ -362,17 +424,34 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_account_certification);
-            setHasOptionsMenu(true);
-            certificationFragment = this;
+            String[] infoUser = SettingsManager.getInfoUser(getActivity());
+            if(infoUser == null) {
+                addPreferencesFromResource(R.xml.pref_no_user);
+            } else {
 
-            bindPreferenceSummaryToValue(findPreference("key_pref_certification_alerts"));
-            bindPreferenceSummaryToValue(findPreference("key_pref_certification_alerts_type"));
-//            bindPreferenceSummaryToValue(findPreference("key_pref_certification_alerts_user_type"));
-//            bindPreferenceSummaryToValue(findPreference("key_pref_user_addAlert"));
+                addPreferencesFromResource(R.xml.pref_account_certification);
+                setHasOptionsMenu(true);
+                certificationFragment = this;
+
+                bindPreferenceSummaryToValue(findPreference("key_pref_certification_alerts"));
+                bindPreferenceSummaryToValue(findPreference("key_pref_certification_alerts_type"));
+                bindPreferenceSummaryToValue(findPreference("key_pref_certification_alerts_user_type"));
+                bindPreferenceSummaryToValue(findPreference("key_pref_user_addAlert"));
+            }
 
         }
 
+        @Override
+        public void onDetach() {
+            super.onDetach();
+            firstTime = true;
+        }
+
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+            firstTime = true;
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -380,11 +459,17 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_navigation);
-            setHasOptionsMenu(true);
+            String[] infoUser = SettingsManager.getInfoUser(getActivity());
+            if(infoUser == null) {
+                addPreferencesFromResource(R.xml.pref_no_user);
+            } else {
 
-            bindPreferenceSummaryToValue(findPreference("key_pref_navigation_events"));
-            bindPreferenceSummaryToValue(findPreference("key_pref_navigation_radius"));
+                addPreferencesFromResource(R.xml.pref_navigation);
+                setHasOptionsMenu(true);
+
+                bindPreferenceSummaryToValue(findPreference("key_pref_navigation_events"));
+                bindPreferenceSummaryToValue(findPreference("key_pref_navigation_radius"));
+            }
 
         }
 
@@ -412,6 +497,18 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
             addPreferencesFromResource(R.xml.pref_app);
             setHasOptionsMenu(true);
 
+        }
+
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static class OtherFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_other);
+            setHasOptionsMenu(true);
+            bindPreferenceSummaryToValue(findPreference("key_switch_display_home"));
         }
 
     }
