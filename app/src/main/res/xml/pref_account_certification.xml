@@ -3,14 +3,15 @@
     android:title="Certification"
     >
 
+
     <SwitchPreference
         android:defaultValue="false"
-        android:key="key_pref_certification_alerts"
+        android:key="key_pref_certification_alertss"
         android:summary="@string/notification_switch_summary"
         android:title="@string/certification_alert" />
 
     <MultiSelectListPreference
-        android:dependency="key_pref_certification_alerts"
+        android:dependency="key_pref_certification_alertss"
         android:entries="@array/pref_alert_type"
         android:entryValues="@array/pref_alert_type_values"
         android:key="key_pref_certification_alerts_type"
@@ -20,7 +21,7 @@
 
     <SwitchPreference
         android:defaultValue="false"
-        android:dependency="key_pref_certification_alerts"
+        android:dependency="key_pref_certification_alertss"
         android:key="key_pref_certification_alerts_user_type"
         android:title="Type de Compte"
         android:summary="Agent public"

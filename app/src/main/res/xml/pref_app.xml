@@ -9,9 +9,12 @@
         android:title="ARIV Conditions d'utilisation"
         android:summary="Lisez les conditions d'utilisation d'ARIV"
         />
-    <Preference
+    <EditTextPreference
         android:title="Suggestions et retour d'experience"
-        android:summary="Aidez nous à ameliorer l'ARIV"
+        android:summary="Aidez nous à ameliorer ARIV"
+        android:key="key_feedback"
+        android:dialogTitle="Feedback"
+        android:dialogMessage="dites nous ce que vous en pensez"
         />
     <Preference
         android:title="ARIV, Nzela-Nzela"

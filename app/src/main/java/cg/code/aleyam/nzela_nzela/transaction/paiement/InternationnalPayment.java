@@ -78,21 +78,24 @@ public class InternationnalPayment implements Observer{
      * methode permettant de lancer l'interface drop-in de braintree et ainsi permettant
      * a l'utilisateur de commencer la transaction.
      */
-    public void LanchDropIn (HashMap dataKey) {
+    public void LanchDropIn (HashMap dataKey , String amount) {
         this.dataKey = dataKey;
-        try {
-            ProviderInstaller.installIfNeeded(this.submitActivity);
-            SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
-            sslContext.init(null, null, null);
-            SSLEngine engine = sslContext.createSSLEngine();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(!TextUtils.isEmpty(amount)) {
+            this.amount = amount;
+            try {
+                ProviderInstaller.installIfNeeded(this.submitActivity);
+                SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
+                sslContext.init(null, null, null);
+                SSLEngine engine = sslContext.createSSLEngine();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            pc = new ServiceCallback<String>("token" , InternationnalPayment.this);
+            new GetToken().execute();
+            Log.e("test", "");
+        } else {
+            Toast.makeText(submitActivity , "Montant Invalide" , Toast.LENGTH_SHORT).show();
         }
-        pc = new ServiceCallback<String>("token" , InternationnalPayment.this);
-        new GetToken().execute();
-        Log.e("test", "");
-
-
     }
 
 
@@ -221,7 +224,7 @@ public class InternationnalPayment implements Observer{
                             String strNonce = nonce.getNonce();
                             if(!TextUtils.isEmpty(strNonce)) {
                                 Log.i("test", "onActivityResult: nonce =  "+strNonce );
-                                Toast.makeText(submitActivity , "nonce: "+strNonce , Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(submitActivity , "nonce: "+strNonce , Toast.LENGTH_SHORT).show();
                                 if(!TextUtils.isEmpty(amount.trim())) {
                                     //donc si on a bel et bien recu un montent pour la transaction.
                                     payO = new PaiementObject(amount , strNonce);

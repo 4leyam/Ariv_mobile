@@ -1,5 +1,6 @@
 package cg.code.aleyam.nzela_nzela.centrale;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,5 +21,11 @@ public class SummaryFragment extends Fragment {
         View contentView = inflater.inflate(R.layout.fragment_menu_acceuil , container ,  false);
         return contentView;
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Centrale_activity.getLoader_indicator().setVisibility(View.GONE);
     }
 }

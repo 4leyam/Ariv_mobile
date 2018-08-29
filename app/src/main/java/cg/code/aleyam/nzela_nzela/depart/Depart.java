@@ -416,6 +416,7 @@ public class Depart extends AppCompatActivity implements View.OnClickListener
             startActivity(i);
 
         } else if(mi.getItemId() == android.R.id.home) {
+            SettingsManager.getInstance(this).getSharedPreferences().edit().putString("currentFragment" , "Home").apply();
             finish();
         }
         return super.onOptionsItemSelected(mi);

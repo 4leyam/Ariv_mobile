@@ -41,18 +41,22 @@
 
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".depart.Depart"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".centrale.Centrale_activity" />
         </activity>
-        <activity android:name=".enregistrement.Register">
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".enregistrement.Register">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".depart.Depart" />
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".home.Search_activity"
             android:launchMode="singleTop">
             <intent-filter>
@@ -61,6 +65,7 @@
 
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".authentication.Authentication"
             android:theme="@style/black">
             <intent-filter>
@@ -70,20 +75,30 @@
             </intent-filter>
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".centrale.Centrale_activity"
             android:theme="@style/home_agence" />
         <activity
             android:name=".commentaire.CommentaireActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_commentaire"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".depart.Depart" />
         </activity>
-        <activity android:name=".authentication.User_info_input" />
-        <activity android:name=".offline.OffTransaction" />
         <activity
+            android:name=".authentication.User_info_input"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".offline.OffTransaction"
+            android:screenOrientation="portrait"
+            />
+        <activity
+
             android:name=".actu.Report"
+            android:screenOrientation="portrait"
             android:theme="@style/black" />
         <!--
          The API key for Google Maps-based APIs is defined as a string resource.
@@ -114,10 +129,12 @@
         </activity>
         <activity
             android:name="com.braintreepayments.api.dropin.DropInActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/bt_drop_in_activity_theme" />
         <activity
             android:name=".transaction.TicketActivity"
             android:label="@string/title_activity_ticket"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -135,6 +152,7 @@
 
         <activity
             android:name=".Settings.SettingsActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_settings"></activity>
     </application>
 

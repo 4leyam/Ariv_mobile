@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
    <SwitchPreference
-       android:key="key_switch_display_home"
        android:defaultValue="true"
+       android:key="key_switch_display_home"
        android:title="Afficher l'acceuil"
-       android:summary="Visible"
+       android:summary="Afficher"
        />
 </PreferenceScreen>
 

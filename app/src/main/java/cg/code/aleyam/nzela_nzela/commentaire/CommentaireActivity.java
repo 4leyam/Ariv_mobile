@@ -37,7 +37,7 @@ public class CommentaireActivity extends AppCompatActivity implements ItemFragme
     private void initComment(String[] extraData) {
 
         agence_concernee = extraData[0];
-        Toast.makeText(CommentaireActivity.this , "recuperation des commentaires de l agence: "+extraData[1] , Toast.LENGTH_SHORT).show();
+        //Toast.makeText(CommentaireActivity.this , "recuperation des commentaires de l agence: "+extraData[1] , Toast.LENGTH_SHORT).show();
         Data_terminal.getAgenceComment(Integer.parseInt(Depart.activity_in_info[1]) , CommentaireActivity.this , CommentaireActivity.RUN );
 
 

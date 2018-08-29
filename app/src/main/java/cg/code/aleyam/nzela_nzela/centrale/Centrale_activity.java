@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -23,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Date;
 
@@ -53,6 +55,7 @@ public class Centrale_activity extends AppCompatActivity{
     DatabaseManager dbManager = null;
     private static ProgressBar loader_indicator = null;
     private static Activity instance = null;
+    private Preference homeP = null;
 
     public static Activity getActivityInstance() throws Exception {
         if(instance == null) {
@@ -65,9 +68,9 @@ public class Centrale_activity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_centrale);
-
+        homeP = new Preference(this);
         isRunning = true;
-
+        homeP.setKey("currentFragment");
         instance = Centrale_activity.this;
         dbManager = DatabaseManager.getInstance(Centrale_activity.this);
         userInfos = dbManager.getCurrentUser();
@@ -97,7 +100,6 @@ public class Centrale_activity extends AppCompatActivity{
         if(userInfos != null)
             userNamePresentation.setText(userInfos[1]);
         dbManager.closeDB();
-
         setSelectedCentralFragment(savedInstanceState);
         initAlertRequestListener();
     }
@@ -133,18 +135,24 @@ public class Centrale_activity extends AppCompatActivity{
                 initCentrale(new Actu_route());
             } else {
                 //on lance le fragment qui etait actif avant la pause.
-                if(savedInstanceState == null) {
+                String fk = SettingsManager.getInstance(this).getSharedPreferences().getString("currentFragment" , "");
+                if(savedInstanceState == null && TextUtils.isEmpty(fk)) {
                     initCentrale(summary
                             ? new SummaryFragment()
                             : new Actu_route());
                 } else {
-                    String fragementKey = savedInstanceState.getString("currentFragment");
+                    String fragementKey = TextUtils.isEmpty(fk)
+                            ? savedInstanceState.getString("currentFragment")
+                            : fk;
                     if(fragementKey != null && !TextUtils.isEmpty(fragementKey)) {
                         if(fragementKey.equalsIgnoreCase("Home")) {
                             initCentrale(new Home());
                         } else if(fragementKey.equalsIgnoreCase("Actu")) {
                             initCentrale(new Actu_route());
+                        } else if(fragementKey.equalsIgnoreCase("Summary")) {
+                            initCentrale(new SummaryFragment());
                         }
+                        SettingsManager.getInstance(this).getSharedPreferences().edit().putString("currentFragment" , "").apply();
                     }
                 }
             }
@@ -158,8 +166,10 @@ public class Centrale_activity extends AppCompatActivity{
         super.onSaveInstanceState(outState);
         if(currentFragment instanceof Home) {
             outState.putString("currentFragment" , "Home");
-        } else {
+        } else if(currentFragment instanceof Actu_route) {
             outState.putString("currentFragment" , "Actu");
+        } else if(currentFragment instanceof SummaryFragment) {
+            outState.putString("currentFragment" , "Summary");
         }
     }
 
@@ -181,6 +191,8 @@ public class Centrale_activity extends AppCompatActivity{
     protected void onResume() {
         isRunning = true;
         super.onResume();
+        defineAlertState(navigationView);
+        defineSummaryState(navigationView);
         instance = Centrale_activity.this;
         if(currentFragment instanceof CentraleInterface) {
             ((CentraleInterface)currentFragment).centraleOnResume();

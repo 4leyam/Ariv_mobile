@@ -164,7 +164,7 @@ public class ActuRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                             .fit()
                             .centerCrop()
 
-                            .error(R.drawable.post_placeholder)
+                            //.error(R.drawable.post_placeholder)
                             .into(holder.post_image);
 
                     Bitmap logo = holder.post_image.getDrawingCache();

@@ -335,8 +335,8 @@ public class Register extends AppCompatActivity implements
                 al.create().show();
             break;
             case (INTERNATIONAL):
-                Log.e("test", "debut de l'envoie de l'argent");
-                InternationnalPayment.getInstance(Register.this).LanchDropIn(dataKey);
+                Log.e("test", "debut de l'envoie de l'argent info: "+Arrays.toString(title_info));
+                InternationnalPayment.getInstance(Register.this).LanchDropIn(dataKey , title_info[1]);
                 break;
         }
 

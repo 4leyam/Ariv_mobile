@@ -12,7 +12,7 @@ import cg.code.aleyam.nzela_nzela.R;
 
 public class HomePagerAdapter extends FragmentStatePagerAdapter {
 
-    private final String PAGE_TITLE[] = {"Compagnies" , "Comparateur"};
+    private final String PAGE_TITLE[] = {"Compagnies" , "Meilleures offres"};
     private TabLayout tabLayout = null;
 
     public HomePagerAdapter(FragmentManager fm , TabLayout tabLayout) {

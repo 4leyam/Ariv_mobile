@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -53,6 +54,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
     private static AlertDialog al = null;
     private static SettingsActivity sa = null;
     private static boolean firstTime = true;
+    private static boolean ignoreFeedbackOnOpen = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
     public void finish() {
         super.finish();
         firstTime = true;
+        ignoreFeedbackOnOpen = true;
     }
 
     /**
@@ -112,12 +115,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
                     boolean bool = Boolean.parseBoolean(stringValue);
                     if(bool)  preference.setSummary("Administrateur");
                     else preference.setSummary("Agent public");
-                } else if(preference.getKey().equals("key_pref_certification_alerts")) {
+                } else if(preference.getKey().equals("key_pref_certification_alertss")) {
                     //on est dans les preferences de certification ou compte public de l'utilisateur.
                     certificationHandler(preference , value);
                 } else if(preference.getKey().equals("key_switch_display_home")) {
                     boolean bool = Boolean.parseBoolean(stringValue);
-                    if(bool)  preference.setSummary("Visible");
+                    if(bool)  preference.setSummary("Afficher");
                     else preference.setSummary("Masquer");
                 }
 
@@ -136,7 +139,19 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
 
 
             } else {
-                if(preference.getKey().equals("key_pref_user_addAlert")) {
+                if(preference.getKey().equals("key_feedback")) {
+                    if(!ignoreFeedbackOnOpen) {
+
+                        Intent Email = new Intent(Intent.ACTION_SEND);
+                        Email.setType("text/email");
+                        Email.putExtra(Intent.EXTRA_EMAIL, new String[] { "aleyam4ndroid@gmail.com" });
+                        Email.putExtra(Intent.EXTRA_SUBJECT, "Retour d'experience");
+                        Email.putExtra(Intent.EXTRA_TEXT, stringValue);
+                        preference.getContext().startActivity(Intent.createChooser(Email, "Retour d'experience"));
+
+                    } ignoreFeedbackOnOpen = false;
+
+                } else if(preference.getKey().equals("key_pref_user_addAlert")) {
                     //avant d'ajouter l'utilisateur on verifie dab si l'utilisateur est un administrateur.
 
                     if(!firstTime) {
@@ -175,12 +190,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
     public void completed(String key, Object object) {
 
 
-        if(key.equals("key_pref_certification_alerts")) {
+        if(key.equals("key_pref_certification_alertss")) {
             //verification du mot de pass du switch pour les alerts.
             if(object == null) {
 
                 //on off le switch
-                SettingsManager.getInstance(SettingsActivity.this).getSharedPreferences().edit().putBoolean("key_pref_certification_alerts" , false).apply();
+                SettingsManager.getInstance(SettingsActivity.this).getSharedPreferences().edit().putBoolean("key_pref_certification_alertss" , false).apply();
                 Loader.dismiss();
                 al = getCertificationAlertDialog(SettingsActivity.this);
                 //on affiche a nouveau afin de permettre a l'utilisateur de saisir son PW
@@ -258,12 +273,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
                             if(CommunicationCheck.isConnectionAvalable(ct)) {
                                 if(!TextUtils.isEmpty(et.getText())) {
                                     //si le mot de passe n'est pas vide on passe a la comparaison ok.
-                                    SettingsManager.getInstance(ct).verifyAdminPass("key_pref_certification_alerts" , et.getText().toString() , SettingsActivity.sa);
+                                    SettingsManager.getInstance(ct).verifyAdminPass("key_pref_certification_alertss" , et.getText().toString() , SettingsActivity.sa);
                                     dialogInterface.dismiss();
                                     //on charge pendant la verification du mot de pass.
                                     Loader.getInstance(ct).load(true);
                                 } else {
-                                    SettingsManager.getInstance(ct).getSharedPreferences().edit().putBoolean("key_pref_certification_alerts" , false).apply();
+                                    SettingsManager.getInstance(ct).getSharedPreferences().edit().putBoolean("key_pref_certification_alertss" , false).apply();
                                     Toast.makeText(ct , "Entrez un mot de passe valide SVP" , Toast.LENGTH_SHORT).show();
                                     certificationFragment.getActivity().finish();
                                     al = null;
@@ -273,12 +288,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
                                 certificationFragment.getActivity().finish();
                                 al = null;
                                 SharedPreferences sp = SettingsManager.getInstance(ct).getSharedPreferences();
-                                boolean isAllowed = sp.getBoolean("key_pref_certification_alerts" , false);
+                                boolean isAllowed = sp.getBoolean("key_pref_certification_alertss" , false);
                                 Toast.makeText(ct , "pope: "+isAllowed , Toast.LENGTH_SHORT ).show();
-//                                if(!isAllowed) {
-//                                    sp.edit().putBoolean("key_pref_certification_alerts" , false).apply();
-//                                }
-
+//
                             }
 
                         }
@@ -292,8 +304,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
                                 dialogInterface.dismiss();
                                 certificationFragment.getActivity().finish();
                                 SharedPreferences sp = SettingsManager.getInstance(ct).getSharedPreferences();
-                                boolean isAllowed = sp.getBoolean("key_pref_certification_alerts" , false);
-                                sp.edit().putBoolean("key_pref_certification_alerts" , false).apply();
+                                boolean isAllowed = sp.getBoolean("key_pref_certification_alertss" , false);
+                                sp.edit().putBoolean("key_pref_certification_alertss" , false).apply();
                                 al = null;
                             }
                         }
@@ -391,7 +403,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
                 || CertificationFragment.class.getName().equals(fragmentName)
                 || NavigationFragment.class.getName().equals(fragmentName)
                 || TripFragment.class.getName().equals(fragmentName)
-                || AboutFragment.class.getName().equals(fragmentName);
+                || AboutFragment.class.getName().equals(fragmentName)
+                || OtherFragment.class.getName().equals(fragmentName) ;
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -433,7 +446,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
                 setHasOptionsMenu(true);
                 certificationFragment = this;
 
-                bindPreferenceSummaryToValue(findPreference("key_pref_certification_alerts"));
+                bindPreferenceSummaryToValue(findPreference("key_pref_certification_alertss"));
                 bindPreferenceSummaryToValue(findPreference("key_pref_certification_alerts_type"));
                 bindPreferenceSummaryToValue(findPreference("key_pref_certification_alerts_user_type"));
                 bindPreferenceSummaryToValue(findPreference("key_pref_user_addAlert"));
@@ -497,8 +510,21 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
             addPreferencesFromResource(R.xml.pref_app);
             setHasOptionsMenu(true);
 
+            bindPreferenceSummaryToValue(findPreference("key_feedback"));
+
         }
 
+        @Override
+        public void onDetach() {
+            super.onDetach();
+            ignoreFeedbackOnOpen = true;
+        }
+
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+            ignoreFeedbackOnOpen = true;
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)

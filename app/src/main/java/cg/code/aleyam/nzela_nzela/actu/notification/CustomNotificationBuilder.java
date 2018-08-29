@@ -112,16 +112,17 @@ public class CustomNotificationBuilder {
 
                 @Override
                 public void onServiceDisconnected(ComponentName componentName) {
-                    if(isBound) {
-                        context.unbindService(serviceConnection);
-                    }
+//                    if(isBound) {
+//                        context.unbindService(serviceConnection);
+//                    }
                     isBound = false;
                     serviceConnection = null;
                     context.stopService(serviceIntent);
                 }
             };
+            context.bindService(serviceIntent , serviceConnection , Context.BIND_AUTO_CREATE );
         }
-        context.bindService(serviceIntent , serviceConnection , Context.BIND_AUTO_CREATE );
+
         Log.e("test", "onServiceConnected: serviceConnected");
         return isBound;
     }
