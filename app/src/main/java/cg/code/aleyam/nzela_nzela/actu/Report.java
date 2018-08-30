@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
@@ -29,8 +31,14 @@ import android.widget.Toast;
 import com.google.android.gms.maps.model.LatLng;
 import com.squareup.otto.Subscribe;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -376,9 +384,12 @@ public class Report extends AppCompatActivity implements
             if(resultCode == RESULT_OK) {
                 Log.i("test", "onActivityResult: transfert de la photo prise");
                 //donc tout ce dont on a faire ici c'est de transferer de partager dans l'application le chemin de la photo prise.
-                if(postedImagePath != null)
+                if(postedImagePath != null) {
+                    //en fait on passe juste le chemin du fichier ou l'image est cence etre
+                    //ce qui fait q'on peut a tout moment modifier l'image de preference avant le post.
+                    BitmapCompress(postedImagePath);
                     OttoBus.bus.post(postedImagePath);
-                else
+                } else
                     OttoBus.bus.post("");
 
             }
@@ -462,4 +473,48 @@ public class Report extends AppCompatActivity implements
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+    public void BitmapCompress(String imagePath) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        FileInputStream fis = null;
+        try {
+           fis = new FileInputStream(imagePath);
+           BitmapFactory.decodeStream(fis , null , options);
+
+        }catch (IOException e) {
+            Log.e("test" , "BitmapCompress: "+e.getMessage());
+        }
+
+        int IMAGE_MAX_SIZE = 1024;
+        int scale = 1;
+        if (options.outHeight > IMAGE_MAX_SIZE || options.outWidth > IMAGE_MAX_SIZE) {
+            //alors on redefinit l'echel de redimentionement de l'image.
+            scale = (int) Math.pow(2, (int) Math.ceil(Math.log(IMAGE_MAX_SIZE /
+                    (double) Math.max(options.outHeight, options.outWidth)) / Math.log(0.5)));
+        }
+
+        BitmapFactory.Options o2 = new BitmapFactory.Options();
+        o2.inSampleSize = scale;
+        Bitmap b = null;
+        try {
+            fis = new FileInputStream(imagePath);
+            b = BitmapFactory.decodeStream(fis, null, o2);
+            fis.close();
+        }catch (IOException e) {
+            Log.e("test" , "BitmapCompress: "+e.getMessage());
+        }
+
+        Log.d("test", "Width :" + b.getWidth() + " Height :" + b.getHeight());
+
+        try {
+            FileOutputStream out = new FileOutputStream(new File(imagePath));
+            b.compress(Bitmap.CompressFormat.JPEG, 70, out);
+            out.flush();
+            out.close();
+        }catch (IOException e) {
+            Log.e("test" , "BitmapCompress: "+e.getMessage());
+        }
+    }
+
 }
