@@ -132,7 +132,7 @@ public class Depart extends AppCompatActivity implements View.OnClickListener
 
     public boolean initView() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(Depart.this);
-        String typeView = sp.getString("key_pref_trip_range" , "");
+        String typeView = sp.getString("key_pref_trip_range" , "0");
         if(Integer.parseInt(typeView ) == 0) {
             isPrice_view = false;
             return isPrice_view;

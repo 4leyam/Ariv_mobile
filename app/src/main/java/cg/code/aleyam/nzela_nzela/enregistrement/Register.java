@@ -31,6 +31,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import cg.code.aleyam.nzela_nzela.BottomSheetDialog;
+import cg.code.aleyam.nzela_nzela.Settings.SettingsManager;
 import cg.code.aleyam.nzela_nzela.depart.InfoGenFragment;
 import cg.code.aleyam.nzela_nzela.R;
 import cg.code.aleyam.nzela_nzela.check.CommunicationCheck;
@@ -105,7 +106,7 @@ public class Register extends AppCompatActivity implements
 
     public void isShortcuted(View v) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(Register.this);
-        boolean itIs = sp.getBoolean("pref_trip_shortcut" , false);
+        boolean itIs = sp.getBoolean("pref_trip_shortcut" , SettingsManager.getInfoUser(Register.this) == null);
         if(!itIs)
             //donc le racourcis vers les information est autorise.
             v.setVisibility(View.GONE);

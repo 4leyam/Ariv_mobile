@@ -71,9 +71,9 @@
     <string name="pref_trip_shortcut">Info raccourci</string>
     <string name="copyright_text">&#169; MAPPCOM &amp; ALEYAM-SLTS tous droits reservés</string>
     <string name="paiementMethodeSumary">Methode de Paiement: \n ARIV vous permet de faire des
-        achatas et des reservation de tickets de bus a l\'aide des cartes de credit, de debit, d\'un compte Paypal.</string>
-    <string name="valideSumary">Consultez vos tickets valide et votre Historique de voyage, Ensuite Partager votre experience de voyage afin de permettre aux compagnies d\'ameliorer leurs services</string>
-    <string name="expireSumary">Guardez un oeuil sur vos ancien deplacement et vos souvenirs</string>
+        achats et des reservations de tickets de bus a l\'aide des cartes de credit, de debit, d\'un compte Paypal.</string>
+    <string name="valideSumary">Consultez vos tickets valide et votre Historique de voyage, Ensuite Partagez votre experience de voyage afin de permettre aux compagnies d\'ameliorer leurs services</string>
+    <string name="expireSumary">Gardez un oeuil sur vos ancien deplacement et vos souvenirs</string>
     <string name="pref_header_others">Autres Preferences</string>
     <string name="ariv_summary">L\'application qui vous permet de donner des informations sur la route, d\'acheter des tickets de voyage et de garder un historique de vos déplacements</string>
     <string name="trip_presentation"><![CDATA[Selectionnez une agence ensuite un depart et enregistrez vous pour obtenir un ticket. Au cas ou vous n\'avez pas d\'idee precise sur l\'agence, faites nous confiance Nous trouverons la meilleur offre pour vous il vous suffit de renseigner les champs de l\'onglet <<Meilleurs offres>>]]></string>

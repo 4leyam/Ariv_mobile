@@ -24,7 +24,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Date;
 
@@ -136,6 +135,7 @@ public class Centrale_activity extends AppCompatActivity{
             } else {
                 //on lance le fragment qui etait actif avant la pause.
                 String fk = SettingsManager.getInstance(this).getSharedPreferences().getString("currentFragment" , "");
+
                 if(savedInstanceState == null && TextUtils.isEmpty(fk)) {
                     initCentrale(summary
                             ? new SummaryFragment()

@@ -125,8 +125,11 @@ public class Actu_route extends Fragment implements
 
     }
 
+    /**
+     * cette methode permet de lancer la demande des differents elevenements publie dans un certain rayon
+     *
+     */
     public synchronized void enableLoad (boolean enable , Location position) {
-        //TODO si une certaine requete de loader les actu bloque il faut voir ce bout de code
         onDownload = true;
         if(enable) {
             if(CommunicationCheck.isConnectionAvalable(Actu_route.this.getActivity())) {

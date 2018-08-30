@@ -11,6 +11,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,7 +41,7 @@ public class SettingsManager {
     }
 
     public boolean isSummaryNeeded() {
-        boolean isNeeded = getSharedPreferences().getBoolean( "key_switch_display_home" , false);
+        boolean isNeeded = getSharedPreferences().getBoolean( "key_switch_display_home" , true);
         return isNeeded;
     }
 
@@ -74,7 +75,7 @@ public class SettingsManager {
     }
 
     public Set<String> getUserPreferedEvent() {
-        return sp.getStringSet("key_pref_navigation_events" , new HashSet<String>());
+        return sp.getStringSet("key_pref_navigation_events" , new HashSet<>(Arrays.asList("0" , "1" , "2" , "3" , "4" , "5" , "6")));
     }
     public void setUserEventsListner(Set<String> events) {
         getSharedPreferences().edit().putStringSet("key_pref_certification_alerts" , events).apply();
